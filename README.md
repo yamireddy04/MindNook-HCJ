@@ -13,7 +13,7 @@
 
 This application is the prototype system described in the TechRxiv preprint (powered by IEEE).
 
-> Gabu Sai Yamini Devi. *"A System-Level Framework for Sentiment-Aware Reflective Writing Systems: Modeling Temporal Emotional Patterns with Interpretability and Ethical Safety."* TechRxiv (IEEE Preprint), February 2026. DOI: `[your-doi-here]`
+> Gabu Sai Yamini Devi. *"A System-Level Framework for Sentiment-Aware Reflective Writing Systems: Modeling Temporal Emotional Patterns with Interpretability and Ethical Safety."* TechRxiv (IEEE Preprint), February 2026. DOI: `10.36227/techrxiv.177274130.07417144/v1`
 
 **[→ Read the Paper](research/sentiment_aware_framework.pdf)**
 
@@ -58,8 +58,7 @@ MindNook-HCJ/
 │       └── analyze-journal/
 │           └── index.ts
 │
-├── research/
-│   └── sentiment_aware_framework.pdf
+├── sentiment_aware_framework.pdf
 │
 └── README.md
 ```
