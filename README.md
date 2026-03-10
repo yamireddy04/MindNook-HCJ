@@ -346,5 +346,5 @@ The project is deliberately scoped as a **research prototype** — prioritising 
 > 📄 **Paper:** [A System-Level Framework for Sentiment-Aware Reflective Writing Systems](sentiment_aware_framework.pdf) — TechRxiv (IEEE), February 2026
 
 *Built by Yamini G · MindNook © 2026*
----
+
 *Licensed under [CC BY 4.0](LICENSE) — free to use with attribution.*
