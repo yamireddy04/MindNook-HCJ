@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindNook — Your Reflection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:#1b2e2b; --bg2:#132220;
+            --gold:#d9c5b2; --gsoft:rgba(217,197,178,0.15); --gline:rgba(217,197,178,0.11);
+            --text:#ede8df; --dim:rgba(237,232,223,0.48);
+            --pos:#7ecb84; --neg:#d97878; --neu:#b8a98a;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;min-height:100vh;overflow-x:hidden;}
+        body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");}
+        .bg-glow{position:fixed;width:700px;height:700px;border-radius:50%;
+            background:radial-gradient(circle,rgba(42,74,62,0.2) 0%,transparent 70%);
+            top:-200px;right:-200px;pointer-events:none;z-index:0;}
+
+        nav{display:flex;justify-content:space-between;align-items:center;padding:22px 52px;
+            border-bottom:1px solid var(--gline);position:relative;z-index:10;}
+        .logo{font-family:'Cormorant Garamond',serif;font-size:1rem;letter-spacing:4px;color:var(--gold);}
+        .nav-links{display:flex;gap:10px;}
+        .pill{padding:7px 20px;border-radius:50px;font-size:0.75rem;letter-spacing:0.8px;
+            cursor:pointer;transition:all 0.28s ease;text-decoration:none;display:inline-block;}
+        .pill.ghost{border:1px solid var(--gline);color:var(--gold);background:transparent;}
+        .pill.ghost:hover{border-color:var(--gold);background:var(--gsoft);}
+        .pill.filled{background:var(--gold);color:var(--bg);font-weight:500;}
+        .pill.filled:hover{background:#c8b49e;}
+
+        .hero{text-align:center;padding:72px 52px 28px;position:relative;z-index:2;}
+        .eyebrow{font-size:0.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:16px;}
+        .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,5vw,4rem);
+            font-weight:300;line-height:1.1;margin-bottom:30px;}
+        .hero-title em{font-style:italic;color:var(--gold);}
+        .orb{display:inline-flex;align-items:center;gap:12px;padding:16px 36px;
+            border-radius:60px;border:1px solid;transition:all 0.4s;}
+        .orb.Positive{border-color:rgba(126,203,132,0.35);background:rgba(126,203,132,0.07);}
+        .orb.Negative{border-color:rgba(217,120,120,0.35);background:rgba(217,120,120,0.07);}
+        .orb.Neutral {border-color:rgba(217,197,178,0.22);background:rgba(217,197,178,0.04);}
+        .orb-icon{font-size:1.4rem;}
+        .orb-word{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:400;letter-spacing:1px;}
+        .orb.Positive .orb-word{color:var(--pos);}
+        .orb.Negative .orb-word{color:var(--neg);}
+        .orb.Neutral  .orb-word{color:var(--neu);}
+
+        .stats{display:flex;justify-content:center;flex-wrap:wrap;gap:1px;
+            padding:44px 52px 0;position:relative;z-index:2;}
+        .sc{flex:1;min-width:90px;max-width:150px;padding:20px 14px;text-align:center;
+            border:1px solid var(--gline);background:var(--bg2);transition:background 0.3s;}
+        .sc:first-child{border-radius:14px 0 0 14px;}
+        .sc:last-child{border-radius:0 14px 14px 0;}
+        .sc:hover{background:rgba(217,197,178,0.05);}
+        .sc-n{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold);line-height:1;}
+        .sc-l{font-size:0.63rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:5px;}
+
+        /* STORY FRAME — taller to fit full story */
+        .story-wrap{max-width:800px;margin:48px auto 0;padding:0 52px;position:relative;z-index:2;}
+        .story-frame{position:relative;
+            background:linear-gradient(145deg,rgba(42,62,52,0.3) 0%,rgba(11,22,20,0.5) 100%);
+            border:1px solid rgba(217,197,178,0.16);border-radius:22px;padding:48px 52px;overflow:hidden;
+            min-height:200px;}
+        .story-frame::before{content:'\201C';position:absolute;top:-24px;left:40px;
+            font-family:'Cormorant Garamond',serif;font-size:11rem;
+            color:rgba(217,197,178,0.05);line-height:1;pointer-events:none;}
+        .story-frame::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+            background:linear-gradient(90deg,transparent,rgba(217,197,178,0.38),transparent);}
+        .story-tag{display:inline-block;margin-bottom:20px;padding:4px 14px;border-radius:50px;
+            font-size:0.66rem;letter-spacing:2.5px;text-transform:uppercase;
+            border:1px solid rgba(217,197,178,0.2);color:var(--gold);background:rgba(217,197,178,0.05);}
+
+        /* Story body — larger, generous line height */
+        .story-body{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:300;
+            line-height:2;color:var(--text);font-style:italic;}
+
+        /* Quote body — bigger and centred */
+        .quote-body{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;
+            line-height:1.75;color:var(--text);font-style:italic;text-align:center;}
+        .quote-author{font-family:'Jost',sans-serif;font-size:0.78rem;letter-spacing:2px;
+            text-transform:uppercase;color:var(--gold);opacity:0.7;margin-top:18px;text-align:center;}
+
+        .cursor{display:inline-block;width:2px;height:1.1em;background:var(--gold);
+            vertical-align:middle;margin-left:3px;animation:blink 1s step-end infinite;}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+        /* LOADING dots inside story frame */
+        .story-loading{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:0.88rem;}
+        .dots span{display:inline-block;width:6px;height:6px;border-radius:50%;
+            background:var(--gold);opacity:0.4;animation:dotpulse 1.4s infinite;}
+        .dots span:nth-child(2){animation-delay:0.2s;}
+        .dots span:nth-child(3){animation-delay:0.4s;}
+        @keyframes dotpulse{0%,80%,100%{opacity:0.2;transform:scale(0.8)}40%{opacity:1;transform:scale(1)}}
+
+        /* TONE CARD */
+        .tone-wrap{max-width:800px;margin:20px auto 0;padding:0 52px;position:relative;z-index:2;}
+        .card{background:var(--bg2);border:1px solid var(--gline);border-radius:16px;
+            padding:26px 28px;transition:all 0.3s;}
+        .card:hover{border-color:rgba(217,197,178,0.22);background:rgba(217,197,178,0.03);}
+        .ctag{font-size:0.63rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);opacity:0.7;margin-bottom:10px;}
+        .card h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;margin-bottom:9px;}
+
+        .tr{display:flex;align-items:center;gap:9px;margin-bottom:10px;}
+        .tl{font-size:0.76rem;color:var(--dim);width:68px;flex-shrink:0;}
+        .tt{flex:1;height:6px;background:rgba(255,255,255,0.05);border-radius:10px;overflow:hidden;}
+        .tf{height:100%;border-radius:10px;width:0;transition:width 1.3s cubic-bezier(.4,0,.2,1);}
+        .tv{font-size:0.76rem;color:var(--dim);width:36px;text-align:right;}
+        .tone-pct{font-size:0.68rem;color:var(--dim);opacity:0.6;margin-left:4px;}
+
+        .action{text-align:center;padding:44px 52px 68px;position:relative;z-index:2;}
+        .big-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 52px;
+            border-radius:50px;background:var(--gold);color:var(--bg);font-family:'Jost',sans-serif;
+            font-size:0.92rem;font-weight:500;text-decoration:none;border:none;cursor:pointer;
+            transition:all 0.3s;}
+        .big-btn:hover{background:#c8b49e;transform:translateY(-3px);box-shadow:0 12px 30px rgba(217,197,178,0.16);}
+
+        #loading{position:fixed;inset:0;background:var(--bg);z-index:200;
+            display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+        .ring{width:40px;height:40px;border:1.5px solid rgba(217,197,178,0.13);
+            border-top-color:var(--gold);border-radius:50%;animation:spin 0.85s linear infinite;}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        #loading .lt{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--gold);font-style:italic;}
+        #loading p{font-size:0.83rem;color:var(--dim);}
+
+        .rise{opacity:0;transform:translateY(18px);animation:rise 0.65s ease forwards;}
+        @keyframes rise{to{opacity:1;transform:translateY(0)}}
+        .d0{animation-delay:.05s}.d1{animation-delay:.15s}.d2{animation-delay:.25s}
+        .d3{animation-delay:.35s}.d4{animation-delay:.45s}
+        .hidden{display:none!important;}
+
+        @media(max-width:680px){
+            nav{padding:18px 22px;} .hero{padding:44px 22px 22px;}
+            .stats{padding:28px 22px 0;}
+            .story-wrap,.tone-wrap,.action{padding-left:22px;padding-right:22px;}
+            .story-frame{padding:32px 26px;}
+        }
+    </style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<div id="loading">
+    <div class="ring"></div>
+    <div class="lt">Reading your words…</div>
+    <p>Preparing your reflection</p>
+</div>
+
+<div id="page" class="hidden">
+    <nav>
+        <div class="logo">MINDNOOK</div>
+        <div class="nav-links">
+            <a href="canvas.html" class="pill ghost">← Write Again</a>
+            <a href="history.html" class="pill ghost">History</a>
+            <a href="index.html"   class="pill ghost">Home</a>
+        </div>
+    </nav>
+
+    <div class="hero rise d0">
+        <div class="eyebrow" id="entry-date">—</div>
+        <h1 class="hero-title">Your <em>reflection,</em><br>understood.</h1>
+        <div class="orb" id="sent-orb">
+            <span class="orb-icon" id="orb-icon"></span>
+            <span class="orb-word" id="orb-word"></span>
+        </div>
+    </div>
+
+    <div class="stats rise d1">
+        <div class="sc"><div class="sc-n" id="sw">—</div><div class="sc-l">Words</div></div>
+        <div class="sc"><div class="sc-n" id="ss">—</div><div class="sc-l">Sentences</div></div>
+        <div class="sc"><div class="sc-n" id="su">—</div><div class="sc-l">Unique</div></div>
+        <div class="sc"><div class="sc-n" id="sm">—</div><div class="sc-l">Mistakes</div></div>
+        <div class="sc"><div class="sc-n" id="sr">—</div><div class="sc-l">Readability</div></div>
+    </div>
+
+    <div class="story-wrap rise d2">
+        <div class="story-frame">
+            <div class="story-tag" id="story-tag">✦ For You</div>
+            <div id="story-loading" class="story-loading">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span>Writing just for you…</span>
+            </div>
+            <div id="story-body" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div class="tone-wrap rise d3">
+        <div class="card">
+            <div class="ctag">Emotional Word Ratio</div>
+            <h3>Tone of your writing</h3>
+            <div style="margin-top:14px;">
+                <div class="tr">
+                    <span class="tl">Positive</span>
+                    <div class="tt"><div class="tf" id="tfp" style="background:linear-gradient(90deg,#2a6644,var(--pos))"></div></div>
+                    <span class="tv" id="tvp">0</span>
+                    <span class="tone-pct" id="pcp"></span>
+                </div>
+                <div class="tr">
+                    <span class="tl">Negative</span>
+                    <div class="tt"><div class="tf" id="tfn" style="background:linear-gradient(90deg,#662a2a,var(--neg))"></div></div>
+                    <span class="tv" id="tvn">0</span>
+                    <span class="tone-pct" id="pcn"></span>
+                </div>
+                <div class="tr">
+                    <span class="tl">Neutral</span>
+                    <div class="tt"><div class="tf" id="tfu" style="background:linear-gradient(90deg,var(--bg2),var(--gold))"></div></div>
+                    <span class="tv" id="tvu">0</span>
+                    <span class="tone-pct" id="pcu"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action rise d4">
+        <a href="vocab.html" class="big-btn">📊 Deep Vocabulary Analysis</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd3RhcWdrY2JwcHlqeGtuYXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5ODcyMTMsImV4cCI6MjA4ODU2MzIxM30.1dlwW0ZoQEEKjweXpGUcVKyd_Rlap-gC2CcwkZXwEgk';
+
+// ── Comprehensive emotion word lists for accurate client-side counting ──
+const POS = new Set([
+    'happy','happiness','joy','joyful','glad','grateful','gratitude','thankful','love','loved',
+    'loving','hopeful','hope','peace','peaceful','calm','content','contented','proud','pride',
+    'excited','excitement','inspired','inspiration','motivated','motivation','amazing','wonderful',
+    'fantastic','great','good','excellent','beautiful','blessed','cheerful','delight','delighted',
+    'energised','energized','enthusiastic','optimistic','pleased','positive','radiant','refreshed',
+    'satisfied','uplifted','warm','bright','elated','ecstatic','confident','empowered','fulfilled',
+    'lively','playful','serene','sunny','thrilled','victorious','vibrant','alive','appreciative',
+    'brave','caring','charmed','creative','eager','free','generous','gentle','glowing','graceful',
+    'healing','honest','imaginative','kind','light','mindful','nurturing','open','patient',
+    'receptive','resilient','safe','strong','tender','trusting','whole','wise','fun','laugh',
+    'smile','smiling','enjoy','enjoyed','enjoying','celebrate','celebration','achievement',
+    'accomplish','accomplished','success','successful','progress','grow','growth','adventure'
+]);
+
+const NEG = new Set([
+    'sad','sadness','angry','anger','tired','tiredness','stress','stressed','worry','worried',
+    'fear','fearful','lonely','loneliness','hurt','pain','painful','lost','dark','difficult',
+    'struggle','struggling','hopeless','anxious','anxiety','frustrated','frustration','overwhelmed',
+    'exhausted','exhaustion','upset','depressed','depression','nervous','scared','terrible','awful',
+    'horrible','miserable','disappointed','disappointment','annoyed','confused','helpless','weak',
+    'broken','cry','crying','tears','grief','grieving','regret','regretful','shame','ashamed',
+    'guilt','guilty','hate','hatred','angry','bored','boredom','burned','burnout','chaos',
+    'chaotic','cruel','defeated','desperate','doubt','dread','dull','empty','fail','failure',
+    'gloomy','heavy','helpless','hollow','hurt','ignored','insecure','irritated','jealous',
+    'meaningless','numb','panicked','paralysed','paralyzed','powerless','rejection','resentment',
+    'restless','shame','shattered','silent','sorrow','stuck','suffering','tense','tension',
+    'tragic','trapped','troubled','uncertain','uncomfortable','unfair','unhappy','unloved',
+    'unworthy','upset','useless','vulnerable','worthless','wrong','mistake','mistakes','hard',
+    'bad','worse','worst','never','cannot','alone','miss','missing','lost','confused'
+]);
+
+// Tokenise text into clean words
+function tokenise(text) {
+    return text.toLowerCase()
+        .replace(/['']/g, '')           // smart quotes
+        .replace(/[^a-z\s]/g, ' ')      // strip punctuation
+        .split(/\s+/)
+        .filter(w => w.length > 2);     // ignore very short words
+}
+
+// Accurate tone counting — word-level, no substring matching
+function countTone(text) {
+    const words = tokenise(text);
+    let pos = 0, neg = 0;
+
+    words.forEach(w => {
+        // also check base forms (remove common suffixes)
+        const stems = [w,
+            w.replace(/ing$/, ''),
+            w.replace(/ed$/, ''),
+            w.replace(/ly$/, ''),
+            w.replace(/ness$/, ''),
+            w.replace(/ful$/, ''),
+            w.replace(/less$/, ''),
+            w.replace(/s$/, ''),
+        ];
+        if (stems.some(s => POS.has(s))) pos++;
+        else if (stems.some(s => NEG.has(s))) neg++;
+    });
+
+    const neu = Math.max(0, words.length - pos - neg);
+    return { pos, neg, neu, total: words.length };
+}
+
+function setBar(fid, vid, pcid, count, total) {
+    document.getElementById(vid).innerText = count;
+    const pct = total > 0 ? Math.round(count / total * 100) : 0;
+    document.getElementById(pcid).innerText = pct + '%';
+    setTimeout(() => {
+        document.getElementById(fid).style.width = pct + '%';
+    }, 400);
+}
+
+// Typewriter for story
+function typewrite(el, text, speed = 18) {
+    el.innerHTML = ''; let i = 0;
+    const cur = document.createElement('span'); cur.className = 'cursor'; el.appendChild(cur);
+    const iv = setInterval(() => {
+        if (i < text.length) { el.insertBefore(document.createTextNode(text[i++]), cur); }
+        else { clearInterval(iv); cur.remove(); }
+    }, speed);
+}
+
+// Alternate story ↔ quote per entry
+function getNextType() {
+    const last = localStorage.getItem('lastContentType') || 'quote';
+    const next = last === 'quote' ? 'story' : 'quote';
+    localStorage.setItem('lastContentType', next);
+    return next;
+}
+
+async function fetchContent(a, jtext) {
+    const type = getNextType();
+    const isStory = type === 'story';
+    const bodyEl = document.getElementById('story-body');
+    const loadEl = document.getElementById('story-loading');
+
+    document.getElementById('story-tag').innerText = isStory ? '✦ A Story For You' : '✦ A Quote For You';
+
+    // Build a rich prompt so the AI writes a FULL story or a deeply resonant quote
+    const entrySnippet = jtext.substring(0, 500);
+    const sentiment = a.sentiment || 'Neutral';
+
+    const storyPrompt = `You are a compassionate creative writer. A person just wrote this journal entry (sentiment: ${sentiment}):
+
+"${entrySnippet}"
+
+Write a complete, original short story (minimum 6-8 sentences, 120-180 words) that:
+- Mirrors the emotional themes and specific details from their entry
+- Features a relatable protagonist going through a similar emotional journey
+- Has a clear narrative arc: situation → struggle → turning point → uplift
+- Ends on a genuinely hopeful, warm note
+- Feels personal and tailored — NOT generic
+
+Return ONLY valid JSON with this exact key: {"story": "<your full story here>"}`;
+
+    const quotePrompt = `You are a literary curator with deep knowledge of philosophy, literature and poetry. A person just wrote this journal entry (sentiment: ${sentiment}):
+
+"${entrySnippet}"
+
+Find or compose ONE deeply resonant quote that:
+- Speaks directly to the specific emotions and themes in their entry
+- Feels like it was written exactly for this moment
+- Is NOT a cliché (avoid: "be yourself", "every day is a gift", etc.)
+- Includes author attribution (real person, writer, philosopher, poet, or "Unknown")
+
+Return ONLY valid JSON with these exact keys: {"quote": "<the quote text>", "author": "<Author Name>"}`;
+
+    try {
+        const r = await fetch('https://dowtaqgkcbppyjxknaqx.supabase.co/functions/v1/analyze-journal', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + ANON },
+            body: JSON.stringify({ text: isStory ? storyPrompt : quotePrompt })
+        });
+        const d = await r.json();
+
+        loadEl.style.display = 'none';
+        bodyEl.style.display = 'block';
+
+        if (isStory) {
+            const storyText = d.story || d.moodLifter
+                || Object.values(d).find(v => typeof v === 'string' && v.length > 40)
+                || 'Every step you take, no matter how small, is a step toward the light.';
+            bodyEl.className = 'story-body';
+            typewrite(bodyEl, storyText, 16);
+        } else {
+            const quoteText = d.quote || d.moodLifter
+                || Object.values(d).find(v => typeof v === 'string' && v.length > 20)
+                || 'The only way out is through.';
+            const authorText = d.author || '';
+            bodyEl.className = 'quote-body';
+            // Typewrite quote then append author
+            typewrite(bodyEl, quoteText, 20);
+            if (authorText) {
+                setTimeout(() => {
+                    const authorEl = document.createElement('div');
+                    authorEl.className = 'quote-author';
+                    authorEl.innerText = '— ' + authorText;
+                    bodyEl.parentNode.appendChild(authorEl);
+                }, quoteText.length * 20 + 400);
+            }
+        }
+    } catch {
+        loadEl.style.display = 'none';
+        bodyEl.style.display = 'block';
+        bodyEl.className = 'story-body';
+        bodyEl.innerText = a.moodLifter || 'Every word you write is a step forward.';
+    }
+}
+
+function init() {
+    const raw   = localStorage.getItem('latestAnalysis');
+    const jtext = localStorage.getItem('latestJournalText') || '';
+    if (!raw) { window.location.href = 'canvas.html'; return; }
+    const a = JSON.parse(raw);
+
+    // Date
+    document.getElementById('entry-date').innerText = new Date().toLocaleDateString('en-GB', {
+        weekday:'long', day:'numeric', month:'long', year:'numeric'
+    });
+
+    // Sentiment orb
+    const icons = { Positive:'☀️', Negative:'🌧️', Neutral:'🌤️' };
+    const orb = document.getElementById('sent-orb');
+    orb.className = 'orb ' + (a.sentiment || 'Neutral');
+    document.getElementById('orb-icon').innerText = icons[a.sentiment] || '🌤️';
+    document.getElementById('orb-word').innerText = a.sentiment || 'Neutral';
+
+    // Stats
+    document.getElementById('sw').innerText = a.wordCount     || 0;
+    document.getElementById('ss').innerText = a.sentenceCount || 0;
+    document.getElementById('su').innerText = a.uniqueWords   || '—';
+    document.getElementById('sm').innerText = a.mistakeCount  || 0;
+    document.getElementById('sr').innerText = a.readability   || '—';
+
+    // ── Tone bars — always use client-side counting for accuracy ──
+    // Client-side counting is more reliable than AI-returned counts
+    const counts = countTone(jtext);
+    // Blend with AI values if they exist and are non-zero
+    let pos = counts.pos;
+    let neg = counts.neg;
+    let neu = counts.neu;
+    // If AI also returned values, average them in for extra accuracy
+    if ((a.positiveWordCount || 0) + (a.negativeWordCount || 0) > 0) {
+        pos = Math.round((pos + (a.positiveWordCount || 0)) / 2);
+        neg = Math.round((neg + (a.negativeWordCount || 0)) / 2);
+        neu = Math.round((neu + (a.neutralWordCount  || 0)) / 2);
+    }
+    const total = (pos + neg + neu) || 1;
+    setBar('tfp', 'tvp', 'pcp', pos, total);
+    setBar('tfn', 'tvn', 'pcn', neg, total);
+    setBar('tfu', 'tvu', 'pcu', neu, total);
+
+    // Show page, then fetch story/quote async
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('page').classList.remove('hidden');
+    fetchContent(a, jtext);
+}
+
+init();
+</script>
+</body>
+</html>

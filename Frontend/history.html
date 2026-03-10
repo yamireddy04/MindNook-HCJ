@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindNook — History</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root{
+            --bg:#1b2e2b;--bg2:#132220;--bg3:#1a2e2a;
+            --gold:#d9c5b2;--gsoft:rgba(217,197,178,0.13);--gline:rgba(217,197,178,0.1);
+            --text:#ede8df;--dim:rgba(237,232,223,0.48);
+            --pos:#7ecb84;--neg:#d97878;--neu:#b8a98a;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;min-height:100vh;overflow-x:hidden;}
+        body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");}
+
+        nav{display:flex;justify-content:space-between;align-items:center;padding:22px 52px;
+            border-bottom:1px solid var(--gline);position:relative;z-index:10;}
+        .logo{font-family:'Cormorant Garamond',serif;font-size:1rem;letter-spacing:4px;color:var(--gold);}
+        .nav-links{display:flex;gap:10px;}
+        .pill{padding:7px 20px;border-radius:50px;font-size:0.75rem;letter-spacing:0.8px;
+            cursor:pointer;transition:all 0.28s;text-decoration:none;display:inline-block;}
+        .pill.ghost{border:1px solid var(--gline);color:var(--gold);background:transparent;}
+        .pill.ghost:hover{border-color:var(--gold);background:var(--gsoft);}
+        .pill.filled{background:var(--gold);color:var(--bg);font-weight:500;border:none;}
+        .pill.filled:hover{background:#c8b49e;}
+
+        /* HEADER */
+        .ph{padding:52px 52px 0;position:relative;z-index:2;}
+        .ph .ey{font-size:0.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:10px;}
+        .ph h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:300;}
+        .ph h1 em{font-style:italic;color:var(--gold);}
+        .ph p{color:var(--dim);font-size:0.88rem;margin-top:8px;}
+
+        /* MOOD CHART STRIP */
+        .chart-strip{
+            margin:36px 52px 0;
+            background:var(--bg2);border:1px solid var(--gline);border-radius:18px;
+            padding:28px 32px;position:relative;z-index:2;
+        }
+        .cs-head{font-size:0.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);opacity:0.7;margin-bottom:16px;}
+        .chart-wrap{height:80px;position:relative;}
+
+        /* TIMELINE */
+        .timeline{padding:32px 52px 60px;position:relative;z-index:2;}
+
+        /* Year/Month divider */
+        .period-label{
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.6rem;font-weight:300;color:var(--gold);opacity:0.4;
+            margin:32px 0 16px;letter-spacing:1px;
+        }
+        .period-label:first-child{margin-top:0;}
+
+        /* ENTRY ROW — minimal: just date + badge */
+        .entry-row{
+            display:flex;align-items:center;justify-content:space-between;
+            padding:18px 24px;
+            background:var(--bg2);border:1px solid var(--gline);
+            border-radius:14px;margin-bottom:8px;
+            cursor:pointer;transition:all 0.3s ease;
+            position:relative;overflow:hidden;
+        }
+        /* left accent bar */
+        .entry-row::before{
+            content:'';position:absolute;left:0;top:0;bottom:0;
+            width:3px;border-radius:0 2px 2px 0;
+        }
+        .entry-row.Positive::before{background:var(--pos);}
+        .entry-row.Negative::before{background:var(--neg);}
+        .entry-row.Neutral::before {background:var(--neu);}
+        .entry-row:hover{background:var(--bg3);border-color:rgba(217,197,178,0.2);transform:translateX(4px);}
+
+        .entry-left{display:flex;flex-direction:column;gap:3px;}
+        .entry-date-main{font-size:0.95rem;color:var(--text);font-weight:400;letter-spacing:0.3px;}
+        .entry-date-sub{font-size:0.74rem;color:var(--dim);}
+
+        .badge{
+            display:inline-flex;align-items:center;gap:5px;
+            padding:4px 14px;border-radius:50px;font-size:0.73rem;font-weight:400;
+            letter-spacing:0.5px;flex-shrink:0;
+        }
+        .badge.Positive{background:rgba(126,203,132,0.11);color:var(--pos);border:1px solid rgba(126,203,132,0.22);}
+        .badge.Negative{background:rgba(217,120,120,0.11);color:var(--neg);border:1px solid rgba(217,120,120,0.22);}
+        .badge.Neutral {background:rgba(217,197,178,0.09);color:var(--neu);border:1px solid rgba(217,197,178,0.18);}
+
+        /* EMPTY / LOADING */
+        .empty{text-align:center;padding:80px 40px;position:relative;z-index:2;}
+        .empty .big{font-size:2.8rem;margin-bottom:18px;opacity:0.4;}
+        .empty h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:var(--gold);margin-bottom:10px;}
+        .empty p{color:var(--dim);margin-bottom:26px;}
+        .loading-wrap{text-align:center;padding:60px;color:var(--dim);}
+        .ring{width:36px;height:36px;border:1.5px solid rgba(217,197,178,0.13);
+            border-top-color:var(--gold);border-radius:50%;animation:spin 0.85s linear infinite;margin:0 auto 14px;}
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        /* AGGREGATE STATS */
+        .agg-row{display:flex;gap:10px;flex-wrap:wrap;margin:24px 52px 0;position:relative;z-index:2;}
+        .agg-cell{background:var(--bg2);border:1px solid var(--gline);border-radius:12px;
+            padding:16px 22px;flex:1;min-width:110px;text-align:center;}
+        .agg-n{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);line-height:1;}
+        .agg-l{font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:4px;}
+
+        .rise{opacity:0;transform:translateY(14px);animation:rise 0.6s ease forwards;}
+        @keyframes rise{to{opacity:1;transform:translateY(0)}}
+        .d0{animation-delay:.04s}.d1{animation-delay:.14s}.d2{animation-delay:.24s}.d3{animation-delay:.34s}
+
+        @media(max-width:640px){
+            nav{padding:18px 22px;} .ph{padding:36px 22px 0;}
+            .agg-row{margin:20px 22px 0;} .chart-strip{margin:24px 22px 0;}
+            .timeline{padding:24px 22px 48px;}
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="logo">MINDNOOK</div>
+    <div class="nav-links">
+        <a href="canvas.html" class="pill filled">+ New Entry</a>
+        <a href="index.html"  class="pill ghost">Home</a>
+    </div>
+</nav>
+
+<div class="ph rise d0">
+    <div class="ey">Journal Archive</div>
+    <h1>Every <em>entry,</em> remembered.</h1>
+    <p>Your complete writing history with sentiment at a glance.</p>
+</div>
+
+<!-- Aggregate stats -->
+<div class="agg-row rise d1" id="agg-row" style="display:none;">
+    <div class="agg-cell"><div class="agg-n" id="agg-total">0</div><div class="agg-l">Entries</div></div>
+    <div class="agg-cell"><div class="agg-n" id="agg-pos">0</div><div class="agg-l">Positive</div></div>
+    <div class="agg-cell"><div class="agg-n" id="agg-neg">0</div><div class="agg-l">Negative</div></div>
+    <div class="agg-cell"><div class="agg-n" id="agg-neu">0</div><div class="agg-l">Neutral</div></div>
+    <div class="agg-cell"><div class="agg-n" id="agg-streak">0</div><div class="agg-l">Day Streak</div></div>
+</div>
+
+<!-- Mood timeline chart -->
+<div class="chart-strip rise d2" id="chart-strip" style="display:none;">
+    <div class="cs-head">Sentiment Over Time</div>
+    <div class="chart-wrap"><canvas id="moodChart"></canvas></div>
+</div>
+
+<!-- Entry list -->
+<div class="timeline" id="timeline">
+    <div class="loading-wrap" id="loading">
+        <div class="ring"></div>
+        <p>Loading your history…</p>
+    </div>
+</div>
+
+<div id="empty" class="empty" style="display:none;">
+    <div class="big">📖</div>
+    <h2>No entries yet</h2>
+    <p>Write your first journal entry and it will appear here.</p>
+    <a href="canvas.html" class="pill filled">Begin Writing</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const{createClient}=supabase;
+const sb=createClient(
+    'https://dowtaqgkcbppyjxknaqx.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd3RhcWdrY2JwcHlqeGtuYXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5ODcyMTMsImV4cCI6MjA4ODU2MzIxM30.1dlwW0ZoQEEKjweXpGUcVKyd_Rlap-gC2CcwkZXwEgk'
+);
+
+const SI={Positive:'☀️',Negative:'🌧️',Neutral:'🌤️'};
+
+function formatDate(iso){
+    const d=new Date(iso);
+    return{
+        main:d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),
+        sub:d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),
+        month:d.toLocaleDateString('en-GB',{month:'long',year:'numeric'}),
+        day:d.toDateString(),
+    };
+}
+
+function buildMoodChart(entries){
+    // Last 20 entries reversed (oldest first)
+    const slice=[...entries].reverse().slice(-20);
+    const labels=slice.map(e=>new Date(e.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}));
+    const sentVal=s=>s==='Positive'?2:s==='Neutral'?1:0;
+    const data=slice.map(e=>sentVal(e.sentiment));
+    new Chart(document.getElementById('moodChart'),{
+        type:'line',
+        data:{labels,datasets:[{
+            data,
+            borderColor:'rgba(217,197,178,0.6)',
+            backgroundColor:'rgba(217,197,178,0.06)',
+            pointBackgroundColor:slice.map(e=>e.sentiment==='Positive'?'#7ecb84':e.sentiment==='Negative'?'#d97878':'#b8a98a'),
+            pointRadius:5,pointHoverRadius:7,
+            borderWidth:1.5,fill:true,tension:0.4,
+        }]},
+        options:{
+            responsive:true,maintainAspectRatio:false,
+            plugins:{legend:{display:false},tooltip:{
+                backgroundColor:'rgba(11,22,20,0.92)',titleColor:'#d9c5b2',bodyColor:'rgba(237,232,223,0.75)',
+                borderColor:'rgba(217,197,178,0.15)',borderWidth:1,padding:10,cornerRadius:8,
+                callbacks:{label:ctx=>['Negative','Neutral','Positive'][ctx.raw]||''}
+            }},
+            scales:{
+                x:{ticks:{color:'rgba(237,232,223,0.4)',font:{size:9}},grid:{display:false}},
+                y:{display:false,min:-0.3,max:2.3},
+            }
+        }
+    });
+}
+
+async function load(){
+    const{data:entries,error}=await sb
+        .from('journal_entries').select('id,created_at,sentiment')
+        .order('created_at',{ascending:false});
+
+    document.getElementById('loading').style.display='none';
+
+    if(error||!entries||!entries.length){
+        document.getElementById('empty').style.display='block';
+        return;
+    }
+
+    // Aggregate stats
+    document.getElementById('agg-row').style.display='flex';
+    document.getElementById('agg-total').innerText=entries.length;
+    document.getElementById('agg-pos').innerText=entries.filter(e=>e.sentiment==='Positive').length;
+    document.getElementById('agg-neg').innerText=entries.filter(e=>e.sentiment==='Negative').length;
+    document.getElementById('agg-neu').innerText=entries.filter(e=>e.sentiment==='Neutral'||!e.sentiment).length;
+
+    // Streak
+    let streak=0;
+    const today=new Date();today.setHours(0,0,0,0);
+    const days=new Set(entries.map(e=>new Date(e.created_at).toDateString()));
+    for(let i=0;i<365;i++){const d=new Date(today);d.setDate(today.getDate()-i);if(days.has(d.toDateString()))streak++;else if(i>0)break;}
+    document.getElementById('agg-streak').innerText=streak;
+
+    // Mood chart
+    document.getElementById('chart-strip').style.display='block';
+    buildMoodChart(entries);
+
+    // Group by Month
+    const months={};
+    entries.forEach(e=>{
+        const key=formatDate(e.created_at).month;
+        if(!months[key])months[key]=[];
+        months[key].push(e);
+    });
+
+    const tl=document.getElementById('timeline');
+    Object.entries(months).forEach(([month,group],mi)=>{
+        const lbl=document.createElement('div');
+        lbl.className='period-label rise';
+        lbl.style.animationDelay=(mi*0.06)+'s';
+        lbl.innerText=month;
+        tl.appendChild(lbl);
+
+        group.forEach((entry,i)=>{
+            const d=formatDate(entry.created_at);
+            const s=entry.sentiment||'Neutral';
+            const row=document.createElement('div');
+            row.className=`entry-row ${s} rise`;
+            row.style.animationDelay=((mi*0.06)+(i*0.04)+0.08)+'s';
+            row.innerHTML=`
+                <div class="entry-left">
+                    <div class="entry-date-main">${d.main}</div>
+                    <div class="entry-date-sub">${d.sub}</div>
+                </div>
+                <span class="badge ${s}">${SI[s]||'•'} ${s}</span>
+            `;
+            tl.appendChild(row);
+        });
+    });
+}
+
+load();
+</script>
+</body>
+</html>

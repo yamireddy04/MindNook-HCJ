@@ -1,0 +1,5 @@
+{
+    "deno.enable": true,
+    "deno.enablePaths": ["backend/supabase/functions/analyze-journal"],
+    "deno.config": "backend/supabase/functions/analyze-journal/deno.json"
+  }
