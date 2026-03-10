@@ -15,7 +15,7 @@ This application is the prototype system described in the TechRxiv preprint (pow
 
 > Gabu Sai Yamini Devi. *"A System-Level Framework for Sentiment-Aware Reflective Writing Systems: Modeling Temporal Emotional Patterns with Interpretability and Ethical Safety."* TechRxiv (IEEE Preprint), February 2026. DOI: `10.36227/techrxiv.177274130.07417144/v1`
 
-**[→ Read the Paper](research/sentiment_aware_framework.pdf)**
+**[→ Read the Paper](sentiment_aware_framework.pdf)**
 
 The paper formally proves that sentiment polarity S(x) is **not a sufficient statistic** for intent-aware action selection, and proposes a 5-layer framework integrating pragmatic reasoning, temporal pattern recognition, and utility-theoretic decision making under asymmetric intervention costs.
 
@@ -255,13 +255,13 @@ The following items align directly with the research agenda outlined in the pape
 
 ## 9. How to Run
 
-> 🌐 **Live version available at:** [mindnook-hcj.vercel.app](https://mindnook-hcj.vercel.app) — no setup needed to try it.
+> 🌐 **Live version available at:** [mindnook-hcj.vercel.app](https://mindnook-hcj.vercel.app).
 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (for local development server, e.g. VS Code Live Server or `npx serve`)
 - [Supabase CLI](https://supabase.com/docs/guides/cli) (for edge function deployment)
-- A Groq API key (free tier available at [groq.com](https://groq.com))
+- A Groq API key
 
 ### Local Frontend
 
@@ -343,6 +343,6 @@ The project is deliberately scoped as a **research prototype** — prioritising 
 
 ---
 
-> 📄 **Paper:** [A System-Level Framework for Sentiment-Aware Reflective Writing Systems](research/sentiment_aware_framework.pdf) — TechRxiv (IEEE), February 2026
+> 📄 **Paper:** [A System-Level Framework for Sentiment-Aware Reflective Writing Systems](sentiment_aware_framework.pdf) — TechRxiv (IEEE), February 2026
 
 *Built by Yamini Reddy · MindNook © 2026*
