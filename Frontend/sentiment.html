@@ -57,8 +57,6 @@
         .sc:hover{background:rgba(217,197,178,0.05);}
         .sc-n{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold);line-height:1;}
         .sc-l{font-size:0.63rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-top:5px;}
-
-        /* STORY FRAME — taller to fit full story */
         .story-wrap{max-width:800px;margin:48px auto 0;padding:0 52px;position:relative;z-index:2;}
         .story-frame{position:relative;
             background:linear-gradient(145deg,rgba(42,62,52,0.3) 0%,rgba(11,22,20,0.5) 100%);
@@ -72,12 +70,8 @@
         .story-tag{display:inline-block;margin-bottom:20px;padding:4px 14px;border-radius:50px;
             font-size:0.66rem;letter-spacing:2.5px;text-transform:uppercase;
             border:1px solid rgba(217,197,178,0.2);color:var(--gold);background:rgba(217,197,178,0.05);}
-
-        /* Story body — larger, generous line height */
         .story-body{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:300;
             line-height:2;color:var(--text);font-style:italic;}
-
-        /* Quote body — bigger and centred */
         .quote-body{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;
             line-height:1.75;color:var(--text);font-style:italic;text-align:center;}
         .quote-author{font-family:'Jost',sans-serif;font-size:0.78rem;letter-spacing:2px;
@@ -86,16 +80,12 @@
         .cursor{display:inline-block;width:2px;height:1.1em;background:var(--gold);
             vertical-align:middle;margin-left:3px;animation:blink 1s step-end infinite;}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
-        /* LOADING dots inside story frame */
         .story-loading{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:0.88rem;}
         .dots span{display:inline-block;width:6px;height:6px;border-radius:50%;
             background:var(--gold);opacity:0.4;animation:dotpulse 1.4s infinite;}
         .dots span:nth-child(2){animation-delay:0.2s;}
         .dots span:nth-child(3){animation-delay:0.4s;}
         @keyframes dotpulse{0%,80%,100%{opacity:0.2;transform:scale(0.8)}40%{opacity:1;transform:scale(1)}}
-
-        /* TONE CARD */
         .tone-wrap{max-width:800px;margin:20px auto 0;padding:0 52px;position:relative;z-index:2;}
         .card{background:var(--bg2);border:1px solid var(--gline);border-radius:16px;
             padding:26px 28px;transition:all 0.3s;}
@@ -230,8 +220,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd3RhcWdrY2JwcHlqeGtuYXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5ODcyMTMsImV4cCI6MjA4ODU2MzIxM30.1dlwW0ZoQEEKjweXpGUcVKyd_Rlap-gC2CcwkZXwEgk';
-
-// ── Comprehensive emotion word lists for accurate client-side counting ──
 const POS = new Set([
     'happy','happiness','joy','joyful','glad','grateful','gratitude','thankful','love','loved',
     'loving','hopeful','hope','peace','peaceful','calm','content','contented','proud','pride',
@@ -264,22 +252,19 @@ const NEG = new Set([
     'bad','worse','worst','never','cannot','alone','miss','missing','lost','confused'
 ]);
 
-// Tokenise text into clean words
 function tokenise(text) {
     return text.toLowerCase()
-        .replace(/['']/g, '')           // smart quotes
-        .replace(/[^a-z\s]/g, ' ')      // strip punctuation
+        .replace(/['']/g, '')           
+        .replace(/[^a-z\s]/g, ' ')     
         .split(/\s+/)
-        .filter(w => w.length > 2);     // ignore very short words
+        .filter(w => w.length > 2);     
 }
 
-// Accurate tone counting — word-level, no substring matching
 function countTone(text) {
     const words = tokenise(text);
     let pos = 0, neg = 0;
 
     words.forEach(w => {
-        // also check base forms (remove common suffixes)
         const stems = [w,
             w.replace(/ing$/, ''),
             w.replace(/ed$/, ''),
@@ -306,7 +291,6 @@ function setBar(fid, vid, pcid, count, total) {
     }, 400);
 }
 
-// Typewriter for story
 function typewrite(el, text, speed = 18) {
     el.innerHTML = ''; let i = 0;
     const cur = document.createElement('span'); cur.className = 'cursor'; el.appendChild(cur);
@@ -316,7 +300,6 @@ function typewrite(el, text, speed = 18) {
     }, speed);
 }
 
-// Alternate story ↔ quote per entry
 function getNextType() {
     const last = localStorage.getItem('lastContentType') || 'quote';
     const next = last === 'quote' ? 'story' : 'quote';
@@ -332,7 +315,6 @@ async function fetchContent(a, jtext) {
 
     document.getElementById('story-tag').innerText = isStory ? '✦ A Story For You' : '✦ A Quote For You';
 
-    // Build a rich prompt so the AI writes a FULL story or a deeply resonant quote
     const entrySnippet = jtext.substring(0, 500);
     const sentiment = a.sentiment || 'Neutral';
 
@@ -384,7 +366,6 @@ Return ONLY valid JSON with these exact keys: {"quote": "<the quote text>", "aut
                 || 'The only way out is through.';
             const authorText = d.author || '';
             bodyEl.className = 'quote-body';
-            // Typewrite quote then append author
             typewrite(bodyEl, quoteText, 20);
             if (authorText) {
                 setTimeout(() => {
@@ -408,34 +389,23 @@ function init() {
     const jtext = localStorage.getItem('latestJournalText') || '';
     if (!raw) { window.location.href = 'canvas.html'; return; }
     const a = JSON.parse(raw);
-
-    // Date
     document.getElementById('entry-date').innerText = new Date().toLocaleDateString('en-GB', {
         weekday:'long', day:'numeric', month:'long', year:'numeric'
     });
-
-    // Sentiment orb
     const icons = { Positive:'☀️', Negative:'🌧️', Neutral:'🌤️' };
     const orb = document.getElementById('sent-orb');
     orb.className = 'orb ' + (a.sentiment || 'Neutral');
     document.getElementById('orb-icon').innerText = icons[a.sentiment] || '🌤️';
     document.getElementById('orb-word').innerText = a.sentiment || 'Neutral';
-
-    // Stats
     document.getElementById('sw').innerText = a.wordCount     || 0;
     document.getElementById('ss').innerText = a.sentenceCount || 0;
     document.getElementById('su').innerText = a.uniqueWords   || '—';
     document.getElementById('sm').innerText = a.mistakeCount  || 0;
     document.getElementById('sr').innerText = a.readability   || '—';
-
-    // ── Tone bars — always use client-side counting for accuracy ──
-    // Client-side counting is more reliable than AI-returned counts
     const counts = countTone(jtext);
-    // Blend with AI values if they exist and are non-zero
     let pos = counts.pos;
     let neg = counts.neg;
     let neu = counts.neu;
-    // If AI also returned values, average them in for extra accuracy
     if ((a.positiveWordCount || 0) + (a.negativeWordCount || 0) > 0) {
         pos = Math.round((pos + (a.positiveWordCount || 0)) / 2);
         neg = Math.round((neg + (a.negativeWordCount || 0)) / 2);
@@ -445,8 +415,6 @@ function init() {
     setBar('tfp', 'tvp', 'pcp', pos, total);
     setBar('tfn', 'tvn', 'pcn', neg, total);
     setBar('tfu', 'tvu', 'pcu', neu, total);
-
-    // Show page, then fetch story/quote async
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('page').classList.remove('hidden');
     fetchContent(a, jtext);

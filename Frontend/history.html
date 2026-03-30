@@ -29,15 +29,11 @@
         .pill.ghost:hover{border-color:var(--gold);background:var(--gsoft);}
         .pill.filled{background:var(--gold);color:var(--bg);font-weight:500;border:none;}
         .pill.filled:hover{background:#c8b49e;}
-
-        /* HEADER */
         .ph{padding:52px 52px 0;position:relative;z-index:2;}
         .ph .ey{font-size:0.68rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:10px;}
         .ph h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:300;}
         .ph h1 em{font-style:italic;color:var(--gold);}
         .ph p{color:var(--dim);font-size:0.88rem;margin-top:8px;}
-
-        /* MOOD CHART STRIP */
         .chart-strip{
             margin:36px 52px 0;
             background:var(--bg2);border:1px solid var(--gline);border-radius:18px;
@@ -45,19 +41,13 @@
         }
         .cs-head{font-size:0.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);opacity:0.7;margin-bottom:16px;}
         .chart-wrap{height:80px;position:relative;}
-
-        /* TIMELINE */
         .timeline{padding:32px 52px 60px;position:relative;z-index:2;}
-
-        /* Year/Month divider */
         .period-label{
             font-family:'Cormorant Garamond',serif;
             font-size:1.6rem;font-weight:300;color:var(--gold);opacity:0.4;
             margin:32px 0 16px;letter-spacing:1px;
         }
         .period-label:first-child{margin-top:0;}
-
-        /* ENTRY ROW — minimal: just date + badge */
         .entry-row{
             display:flex;align-items:center;justify-content:space-between;
             padding:18px 24px;
@@ -66,7 +56,6 @@
             cursor:pointer;transition:all 0.3s ease;
             position:relative;overflow:hidden;
         }
-        /* left accent bar */
         .entry-row::before{
             content:'';position:absolute;left:0;top:0;bottom:0;
             width:3px;border-radius:0 2px 2px 0;
@@ -88,8 +77,6 @@
         .badge.Positive{background:rgba(126,203,132,0.11);color:var(--pos);border:1px solid rgba(126,203,132,0.22);}
         .badge.Negative{background:rgba(217,120,120,0.11);color:var(--neg);border:1px solid rgba(217,120,120,0.22);}
         .badge.Neutral {background:rgba(217,197,178,0.09);color:var(--neu);border:1px solid rgba(217,197,178,0.18);}
-
-        /* EMPTY / LOADING */
         .empty{text-align:center;padding:80px 40px;position:relative;z-index:2;}
         .empty .big{font-size:2.8rem;margin-bottom:18px;opacity:0.4;}
         .empty h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:var(--gold);margin-bottom:10px;}
@@ -98,8 +85,6 @@
         .ring{width:36px;height:36px;border:1.5px solid rgba(217,197,178,0.13);
             border-top-color:var(--gold);border-radius:50%;animation:spin 0.85s linear infinite;margin:0 auto 14px;}
         @keyframes spin{to{transform:rotate(360deg)}}
-
-        /* AGGREGATE STATS */
         .agg-row{display:flex;gap:10px;flex-wrap:wrap;margin:24px 52px 0;position:relative;z-index:2;}
         .agg-cell{background:var(--bg2);border:1px solid var(--gline);border-radius:12px;
             padding:16px 22px;flex:1;min-width:110px;text-align:center;}
@@ -151,14 +136,10 @@
     <div class="agg-cell"><div class="agg-n" id="agg-neu">0</div><div class="agg-l">Neutral</div></div>
     <div class="agg-cell"><div class="agg-n" id="agg-streak">0</div><div class="agg-l">Day Streak</div></div>
 </div>
-
-<!-- Mood timeline chart -->
 <div class="chart-strip rise d2" id="chart-strip" style="display:none;">
     <div class="cs-head">Sentiment Over Time</div>
     <div class="chart-wrap"><canvas id="moodChart"></canvas></div>
 </div>
-
-<!-- Entry list -->
 <div class="timeline" id="timeline">
     <div class="loading-wrap" id="loading">
         <div class="ring"></div>
@@ -194,7 +175,6 @@ function formatDate(iso){
 }
 
 function buildMoodChart(entries){
-    // Last 20 entries reversed (oldest first)
     const slice=[...entries].reverse().slice(-20);
     const labels=slice.map(e=>new Date(e.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}));
     const sentVal=s=>s==='Positive'?2:s==='Neutral'?1:0;
@@ -235,26 +215,18 @@ async function load(){
         document.getElementById('empty').style.display='block';
         return;
     }
-
-    // Aggregate stats
     document.getElementById('agg-row').style.display='flex';
     document.getElementById('agg-total').innerText=entries.length;
     document.getElementById('agg-pos').innerText=entries.filter(e=>e.sentiment==='Positive').length;
     document.getElementById('agg-neg').innerText=entries.filter(e=>e.sentiment==='Negative').length;
     document.getElementById('agg-neu').innerText=entries.filter(e=>e.sentiment==='Neutral'||!e.sentiment).length;
-
-    // Streak
     let streak=0;
     const today=new Date();today.setHours(0,0,0,0);
     const days=new Set(entries.map(e=>new Date(e.created_at).toDateString()));
     for(let i=0;i<365;i++){const d=new Date(today);d.setDate(today.getDate()-i);if(days.has(d.toDateString()))streak++;else if(i>0)break;}
     document.getElementById('agg-streak').innerText=streak;
-
-    // Mood chart
     document.getElementById('chart-strip').style.display='block';
     buildMoodChart(entries);
-
-    // Group by Month
     const months={};
     entries.forEach(e=>{
         const key=formatDate(e.created_at).month;

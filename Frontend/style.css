@@ -22,8 +22,7 @@
     overflow-x: hidden;
     transition: background-color 0.4s ease, color 0.4s ease;
   }
-  
-  /* --- Keep the rest of your original CSS here --- */
+
   .nav-minimal { display: flex; justify-content: space-between; padding: 30px 60px; align-items: center; max-width: 1200px; margin: 0 auto; }
   .nav-logo-text { font-weight: 700; letter-spacing: 4px; color: var(--accent-gold); }
   .nav-menu a { margin-left: 30px; text-decoration: none; color: var(--text-primary); font-size: 0.75rem; letter-spacing: 1.5px; }

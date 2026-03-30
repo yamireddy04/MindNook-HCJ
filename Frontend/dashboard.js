@@ -1,4 +1,3 @@
-// Fix #1: supabase was never initialized in dashboard.js
 const { createClient } = supabase;
 const supabaseClient = createClient(
     'https://dowtaqgkcbppyjxknaqx.supabase.co',
@@ -7,9 +6,6 @@ const supabaseClient = createClient(
 
 async function loadDashboard() {
     const current = JSON.parse(localStorage.getItem('latestAnalysis'));
-
-    // Fix #6: range(0,1) was fetching 2 rows incorrectly for "previous"
-    // Now fetching 2 rows and using index [1] for the previous entry
     const { data: previous } = await supabaseClient
         .from('journal_entries')
         .select('mistake_count')
@@ -28,8 +24,6 @@ async function loadDashboard() {
             }]
         }
     });
-
-    // Display suggestions
     const vocabDiv = document.getElementById('vocab-suggestions');
     vocabDiv.innerHTML = `<h3>Suggestions:</h3><p>${current.vocabularySuggestions.join(', ')}</p>`;
 }

@@ -7,9 +7,8 @@
 body {
   background-color: #1b2e2b;
 }
-/* --- UPDATED CANVAS PICKER --- */
 .canvas-picker-view { 
-  background-color: #1b2e2b; /* Your brand dark green */
+  background-color: #1b2e2b;
   min-height: 100vh; 
   display: flex; 
   flex-direction: column; 
@@ -19,7 +18,7 @@ body {
 }
 
 .picker-headline { 
-  font-family: 'Playfair Display', serif; /* Or a classy Serif */
+  font-family: 'Playfair Display', serif; 
   font-size: 2.5rem; 
   margin-bottom: 60px; 
   font-weight: 400;
@@ -62,7 +61,6 @@ body {
 .canvas-square-icon { font-size: 2.2rem; }
 .canvas-square p { font-size: 0.85rem; font-weight: 400; letter-spacing: 0.5px; }
 
-/* --- NAV BUTTONS --- */
 .picker-footer-nav { margin-top: 60px; display: flex; gap: 20px; }
 .nav-btn { 
   padding: 12px 40px; 
@@ -72,25 +70,21 @@ body {
   letter-spacing: 1px;
 }
 
-/* --- 2. NAVIGATION --- */
 .picker-footer-nav { display: flex; gap: 20px; }
 .nav-btn { padding: 14px 35px; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s; }
 .nav-btn.secondary { background: transparent; border: 1px solid rgba(217, 197, 178, 0.5); color: #d9c5b2; }
 .nav-btn.primary { background: #d9c5b2; color: #0d1a18; border: none; }
 .nav-btn.primary.disabled { background: #333; color: #666; cursor: not-allowed; opacity: 0.5; }
 
-/* --- 3. EDITOR & THEMES --- */
 .editor-view { min-height: 100vh; background: #f4f4f4; padding-bottom: 50px; }
 
-/* 1. Center the entire editor area */
 .paper-container { 
   display: flex; 
-  flex-direction: column; /* Stack toolbar and paper */
-  align-items: center;    /* Horizontal center */
+  flex-direction: column; 
+  align-items: center;   
   padding: 20px; 
 }
 
-/* 2. Style the Toolbar to be clean, centered, and floating */
 .ql-toolbar.ql-snow {
   background: #ffffff;
   border: none !important;
@@ -120,11 +114,9 @@ body {
   font-size: 1.1rem !important;
   color: #333 !important;
 }
-/* --- 4. CONDITIONAL THEMES --- */
-/* 1. Floral */
+
 .theme-floral .ql-editor { background-color: #f5c9d7 !important; background-image: url('https://www.transparenttextures.com/patterns/rose-petals.png') !important; }
 
-/* 2. Ruled */
 .theme-ruled .ql-editor {
   background-image: linear-gradient(#e0e0e0 1px, transparent 1px) !important;
   background-size: 100% 3rem !important;
@@ -132,21 +124,18 @@ body {
   background-color: #fffaf0 !important;
 }
 
-/* 3. Midnight */
 .theme-midnight .ql-editor { 
   background-color: #001f3f !important; 
   color: #77ffff !important; 
   text-shadow: 0 0 5px #77ffff, 0 0 10px #77ffff, 0 0 20px #00d2ff;
 }
 
-/* 4. Parchment */
 .editor-view.theme-parchment .ql-editor { 
   background-color: #f4e4bc !important; 
   background-image: url('https://www.transparenttextures.com/patterns/parchment.png') !important; 
   color: #5f4b32 !important; 
 }
 
-/* 5. Lavender */
 .theme-lavender .ql-editor { 
   background-color: #e6e6fa !important;
   background-image: radial-gradient(#d8bfd8 15%, transparent 16%), radial-gradient(#d8bfd8 15%, transparent 16%) !important;
@@ -154,36 +143,30 @@ body {
   color: #4b0082 !important;
 }
 
-/* 6. Minimal */
 .theme-minimal .ql-editor { background-color: #ffffff !important; color: #333 !important; }
 
-/* 7. Matcha */
 .theme-matcha .ql-editor {
   background: linear-gradient(180deg, #d1e2c4 0%, #f0f7ea 20%, #ffffff 100%) !important;
   color: #3e5a2e !important;
   border: 2px solid #a8c69f !important;
 }
 
-/* 8. Sunset */
 .theme-sunset .ql-editor { 
   background: linear-gradient(180deg, #ffef96 0%, #ffb458 50%, #f96161 100%) !important;
   color: #fffaf0 !important;
 }
 
-/* 9. Noir */
 .theme-noir .ql-editor { 
   background-color: #000000 !important; 
   color: #d4af37 !important; 
   font-family: 'Snell Roundhand', cursive !important;
 }
 
-/* 10. Ocean */
 .theme-ocean .ql-editor { 
   background: linear-gradient(180deg, #001f3f 0%, #003366 50%, #005b96 100%) !important;
   color: #e0f7fa !important;
 }
 
-/* --- 4. FONT & SIZE FIX --- */
 .ql-picker.ql-font .ql-picker-item[data-value="times"]::before { content: "Times New Roman" !important; }
 .ql-picker.ql-font .ql-picker-item[data-value="apple-chancery"]::before { content: "Apple Chancery" !important; }
 .ql-picker.ql-font .ql-picker-item[data-value="bradley-hand"]::before { content: "Bradley Hand" !important; }
@@ -216,7 +199,6 @@ body {
 .ql-font-snell-roundhand { font-family: 'Snell Roundhand', cursive !important; }
 .ql-font-papyrus { font-family: 'Papyrus', fantasy !important; }
 
-/* Numeric Sizes 10-30 */
 .ql-picker.ql-size .ql-picker-item::before { content: attr(data-value) !important; }
 .ql-size-10px { font-size: 10px !important; }
 .ql-size-11px { font-size: 11px !important; }
@@ -240,7 +222,6 @@ body {
 .ql-size-29px { font-size: 29px !important; }
 .ql-size-30px { font-size: 30px !important; }
 
-/* --- REFINED EDITOR NAV --- */
 .editor-top-nav {
   display: flex;
   justify-content: space-between;
@@ -278,7 +259,6 @@ body {
   letter-spacing: 1px;
 }
 
-/* Update labels to show selected state */
 .ql-picker.ql-font .ql-picker-label::before {
   content: "Font" !important;
 }
@@ -297,20 +277,15 @@ body {
 }
 
 .ql-editor {
-  /* This ensures the font/size is applied to the container, 
-     not just the individual spans */
   font-family: inherit !important; 
 }
-/* Color and Highlighter Styles */
 .ql-snow .ql-color-picker .ql-picker-label svg,
 .ql-snow .ql-background-picker .ql-picker-label svg {
-  stroke: #333; /* Darkens the icon color */
+  stroke: #333; 
 }
 
-/* Ensure colors render correctly inside the themed paper */
 .ql-editor .ql-color-white { color: #ffffff !important; }
 .ql-editor .ql-color-red { color: #e06666 !important; }
-/* Quill creates these classes dynamically, so they work out of the box */
 
 @media (max-width: 768px) {
 

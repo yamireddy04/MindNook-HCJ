@@ -1,4 +1,3 @@
-// --- 1. Features Injection Logic ---
 const features = [
     { id: '01', title: 'Real-Book Experience', desc: 'Minimalist, distraction-free journaling.', img: '1.jpeg' },
     { id: '02', title: 'Vocabulary Builder', desc: 'Enhance your language with AI-powered suggestions.', img: '2.jpeg' },
@@ -23,8 +22,6 @@ if (grid) {
       `;
     });
 }
-
-// --- 2. Dark/Light Mode Toggle ---
 const toggleBtn = document.getElementById('theme-toggle');
 if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
@@ -34,8 +31,6 @@ if (toggleBtn) {
         toggleBtn.innerText = body.classList.contains('light') ? '☀️' : '🌙';
     });
 }
-
-// --- 3. Backend Integration (Connect to your Supabase) ---
 async function analyzeJournalEntry(journalText) {
     const url = 'https://dowtaqgkcbppyjxknaqx.supabase.co/functions/v1/analyze-journal';
     const anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd3RhcWdrY2JwcHlqeGtuYXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5ODcyMTMsImV4cCI6MjA4ODU2MzIxM30.1dlwW0ZoQEEKjweXpGUcVKyd_Rlap-gC2CcwkZXwEgk'; // REPLACE WITH YOUR ACTUAL KEY
@@ -52,7 +47,6 @@ async function analyzeJournalEntry(journalText) {
 
         const result = await response.json();
         console.log("AI Analysis:", result);
-        // Here you can update your UI to show the analysis
         alert("Analysis received! Check the console.");
     } catch (error) {
         console.error("Error calling AI:", error);

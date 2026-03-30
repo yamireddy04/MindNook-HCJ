@@ -45,8 +45,6 @@
         .eyebrow { font-size: 0.68rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); opacity: 0.6; margin-bottom: 12px; }
         .page-header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 4.5vw, 3.6rem); font-weight: 300; }
         .page-header h1 em { font-style: italic; color: var(--gold); }
-
-        /* CENTRED GRID */
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -67,7 +65,6 @@
         .card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.12rem; font-weight: 400; margin-bottom: 12px; }
         .card p { font-size: 0.84rem; line-height: 1.75; color: var(--dim); }
 
-        /* METRIC BOXES */
         .metric-row { display: flex; gap: 10px; flex-wrap: wrap; }
         .metric-box {
             flex: 1; min-width: 70px;
@@ -77,20 +74,17 @@
         .metric-box .num { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--gold); line-height: 1; }
         .metric-box .lbl { font-size: 0.62rem; color: var(--dim); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; }
 
-        /* LEXICAL */
         .lex-score { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--gold); line-height: 1; }
         .lex-label { font-size: 0.66rem; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); margin-top: 5px; }
         .lex-bar-track { height: 5px; background: rgba(255,255,255,0.05); border-radius: 50px; margin: 12px 0 7px; overflow: hidden; }
         .lex-bar-fill { height: 100%; border-radius: 50px; background: linear-gradient(90deg, #2a4a42, var(--gold)); transition: width 1.2s ease; }
         .lex-feedback { font-size: 0.82rem; color: var(--dim); line-height: 1.6; }
 
-        /* CHIPS */
         .chip-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
         .chip { padding: 4px 12px; border-radius: 50px; font-size: 0.78rem; background: rgba(217,197,178,0.06); border: 1px solid rgba(217,197,178,0.13); color: var(--dim); }
         .chip.warn { border-color: rgba(217,120,120,0.35); background: rgba(217,120,120,0.07); color: var(--neg); }
         .chip.suggest { border-color: rgba(126,203,132,0.35); background: rgba(126,203,132,0.07); color: var(--pos); }
 
-        /* REPLACEMENT TABLE */
         .replace-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
         .replace-table th { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); opacity: 0.7; text-align: left; padding: 8px 0; border-bottom: 1px solid rgba(217,197,178,0.1); }
         .replace-table td { padding: 10px 0; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--dim); vertical-align: middle; }
@@ -98,7 +92,6 @@
         .replace-table td:last-child { color: var(--pos); }
         .arrow { color: rgba(217,197,178,0.3); margin: 0 8px; }
 
-        /* GRAMMAR MISTAKE LIST */
         .mistake-list { margin-top: 10px; display: flex; flex-direction: column; gap: 7px; }
         .mistake-item {
             display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
@@ -111,7 +104,6 @@
         .mistake-item .mtype { color: var(--dim); font-size: 0.72rem; font-style: italic; margin-left: auto; }
         .no-mistakes { font-size: 0.86rem; color: var(--pos); }
 
-        /* VOCAB ENRICHMENT ROWS */
         .vocab-row {
             display: flex; align-items: center; gap: 10px;
             padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
@@ -122,7 +114,6 @@
         .vocab-row .varr { color: rgba(217,197,178,0.3); }
         .vocab-row .better { color: var(--pos); }
 
-        /* INLINE LOADING */
         .inline-loading { display: flex; align-items: center; gap: 8px; color: var(--dim); font-size: 0.81rem; }
         .dots span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); opacity: 0.4; animation: dotpulse 1.4s infinite; }
         .dots span:nth-child(2) { animation-delay: 0.2s; }
@@ -174,7 +165,6 @@
 
 <div class="grid">
 
-    <!-- ROW 1 col 1: Word Count -->
     <div class="card fade-in d1">
         <div class="ctag">Word Count</div>
         <h3>How much you wrote</h3>
@@ -184,7 +174,6 @@
         </div>
     </div>
 
-    <!-- ROW 1 col 2: Sentence Structure -->
     <div class="card fade-in d1">
         <div class="ctag">Sentence Structure</div>
         <h3>Complexity & flow</h3>
@@ -195,7 +184,6 @@
         <p id="sentence-feedback">—</p>
     </div>
 
-    <!-- ROW 1 col 3: Lexical Diversity -->
     <div class="card fade-in d1">
         <div class="ctag">Lexical Diversity</div>
         <h3>Vocabulary variety score</h3>
@@ -205,7 +193,6 @@
         <div class="lex-feedback" id="lex-feedback">Higher score = more varied vocabulary.</div>
     </div>
 
-    <!-- ROW 2 col 1–2: Emotional Tone Chart -->
     <div class="card span2 fade-in d2">
         <div class="ctag">Emotional Tone Score</div>
         <h3>Positive · Negative · Neutral</h3>
@@ -233,7 +220,6 @@
         </div>
     </div>
 
-    <!-- ROW 2 col 3: Grammar & Spelling -->
     <div class="card fade-in d2">
         <div class="ctag">Grammar & Spelling</div>
         <h3>Accuracy at a glance</h3>
@@ -248,14 +234,12 @@
         <div class="mistake-list" id="mistake-list" style="display:none;"></div>
     </div>
 
-    <!-- ROW 3 col 1: Repeated Words -->
     <div class="card fade-in d3">
         <div class="ctag">Repeated Word Detection</div>
         <h3>Words used too often</h3>
         <div class="chip-list" id="repeated-chips"></div>
     </div>
 
-    <!-- ROW 3 col 2–3: Vocabulary Enrichment — entry words → better -->
     <div class="card span2 fade-in d3">
         <div class="ctag">Vocabulary Enrichment</div>
         <h3>Suggested upgrades</h3>
@@ -266,7 +250,6 @@
         <div id="vocab-rows" style="display:none;"></div>
     </div>
 
-    <!-- ROW 4 full: Expression Enrichment — unique per entry from AI -->
     <div class="card full fade-in d4">
         <div class="ctag">Expression Enrichment</div>
         <h3>Stronger ways to say it</h3>
@@ -290,7 +273,6 @@
 <script>
 const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd3RhcWdrY2JwcHlqeGtuYXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5ODcyMTMsImV4cCI6MjA4ODU2MzIxM30.1dlwW0ZoQEEKjweXpGUcVKyd_Rlap-gC2CcwkZXwEgk';
 
-// Tone word sets
 const POS = new Set(['happy','happiness','joy','joyful','glad','grateful','gratitude','thankful','love','loved','loving','hopeful','hope','peace','peaceful','calm','content','contented','proud','pride','excited','excitement','inspired','inspiration','motivated','motivation','amazing','wonderful','fantastic','great','good','excellent','beautiful','blessed','cheerful','delight','delighted','energised','energized','enthusiastic','optimistic','pleased','positive','radiant','refreshed','satisfied','uplifted','warm','bright','elated','ecstatic','confident','empowered','fulfilled','lively','playful','serene','sunny','thrilled','vibrant','alive','appreciative','brave','caring','creative','eager','free','generous','gentle','glowing','healing','kind','light','mindful','nurturing','open','patient','resilient','safe','strong','tender','trusting','whole','wise','fun','laugh','smile','enjoy','enjoyed','celebrate','celebration','accomplish','accomplished','success','successful','progress','grow','growth','adventure']);
 const NEG = new Set(['sad','sadness','angry','anger','tired','tiredness','stress','stressed','worry','worried','fear','fearful','lonely','loneliness','hurt','pain','painful','lost','dark','difficult','struggle','struggling','hopeless','anxious','anxiety','frustrated','frustration','overwhelmed','exhausted','exhaustion','upset','depressed','depression','nervous','scared','terrible','awful','horrible','miserable','disappointed','disappointment','annoyed','confused','helpless','weak','broken','cry','crying','tears','grief','grieving','regret','shame','ashamed','guilt','guilty','hate','bored','burned','chaos','cruel','defeated','desperate','doubt','dread','dull','empty','fail','failure','gloomy','heavy','hollow','ignored','insecure','irritated','jealous','meaningless','numb','panicked','paralysed','powerless','rejection','resentment','restless','shattered','sorrow','stuck','suffering','tense','tension','tragic','trapped','troubled','uncertain','uncomfortable','unfair','unhappy','unloved','unworthy','useless','vulnerable','worthless','wrong','mistake','hard','bad','worse','worst','never','alone','miss','missing']);
 
@@ -382,8 +364,6 @@ async function init() {
     const jtext = localStorage.getItem('latestJournalText') || '';
     if (!raw) { window.location.href = 'canvas.html'; return; }
     const a = JSON.parse(raw);
-
-    // Word counts — compute unique from text if AI returned 0
     const totalWords  = a.wordCount || tokenise(jtext).length;
     const uniqueWords = (a.uniqueWords && a.uniqueWords > 0) ? a.uniqueWords : countUnique(jtext);
 
@@ -413,7 +393,6 @@ async function init() {
             'Consider varying your word choices — repeating words reduces impact.';
     }
 
-    // Tone donut — client-side counting for accuracy
     let pos = a.positiveWordCount || 0;
     let neg = a.negativeWordCount || 0;
     let neu = a.neutralWordCount  || 0;
@@ -422,11 +401,9 @@ async function init() {
     }
     drawDonut(pos, neg, neu);
 
-    // Static grammar counts
     document.getElementById('g-mistakes').innerText    = a.mistakeCount ?? '—';
     document.getElementById('g-readability').innerText = a.readability || '—';
 
-    // Repeated words
     const repEl = document.getElementById('repeated-chips');
     (a.repeatedWords || []).forEach(w => {
         const c = document.createElement('span'); c.className = 'chip warn'; c.innerText = w; repEl.appendChild(c);
@@ -434,7 +411,6 @@ async function init() {
     if (!a.repeatedWords || a.repeatedWords.length === 0)
         repEl.innerHTML = '<span class="chip">No overused words detected 🎉</span>';
 
-    // ASYNC: Grammar mistakes listed from entry
     fetchGrammarMistakes(jtext, a.mistakeCount).then(mistakes => {
         document.getElementById('grammar-loading').style.display = 'none';
         const listEl = document.getElementById('mistake-list');
@@ -450,7 +426,6 @@ async function init() {
         }
     });
 
-    // ASYNC: Vocab enrichment — words from this entry
     fetchVocabEnrichment(jtext).then(pairs => {
         document.getElementById('vocab-loading').style.display = 'none';
         const container = document.getElementById('vocab-rows');
@@ -465,7 +440,6 @@ async function init() {
         });
     });
 
-    // ASYNC: Expression enrichment — unique to this entry
     fetchExpressionEnrichment(jtext).then(exprs => {
         document.getElementById('expr-loading').style.display = 'none';
         const tbl = document.getElementById('expr-table');

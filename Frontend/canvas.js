@@ -1,4 +1,3 @@
-// --- SUPABASE INIT (Fix #1: was never initialized) ---
 const { createClient } = supabase;
 const supabaseClient = createClient(
     'https://dowtaqgkcbppyjxknaqx.supabase.co',
@@ -22,7 +21,6 @@ let selectedTemplate = null;
 const grid = document.getElementById('canvas-grid');
 const startBtn = document.getElementById('start-writing');
 
-// Populate Grid
 templates.forEach(t => {
     const div = document.createElement('div');
     div.className = 'canvas-square';
@@ -37,8 +35,6 @@ templates.forEach(t => {
     grid.appendChild(div);
 });
 
-// Init Quill
-// --- 1. REGISTER FORMATS ---
 const Font = Quill.import('formats/font');
 Font.whitelist = [
     'times', 'times-new-roman', 'bookman', 'apple-chancery', 'big-caslon',
@@ -52,7 +48,6 @@ Size.whitelist = ['10px','11px','12px','13px','14px','15px','16px','17px','18px'
                   '21px','22px','23px','24px','25px','26px','27px','28px','29px','30px'];
 Quill.register(Size, true);
 
-// --- 2. INIT QUILL WITH CUSTOM TOOLBAR ---
 const quill = new Quill('#editor', {
     theme: 'snow',
     modules: {
@@ -67,7 +62,6 @@ const quill = new Quill('#editor', {
     }
 });
 
-// --- Disable save btn until user has typed enough ---
 const saveBtn = document.getElementById('save-btn');
 if (saveBtn) {
     saveBtn.disabled = true;
@@ -89,8 +83,6 @@ quill.on('text-change', () => {
         }
     }
 });
-
-// Navigation
 document.getElementById('start-writing').onclick = () => {
     document.getElementById('picker-view').style.display = 'none';
     const editorView = document.getElementById('editor-view');
@@ -103,13 +95,9 @@ document.getElementById('back-btn').onclick = () => {
     document.getElementById('editor-view').style.display = 'none';
     document.getElementById('picker-view').style.display = 'flex';
 };
-
-// --- Fix #3: closeModal defined ---
 function closeModal() {
     document.getElementById('analysis-modal').style.display = 'none';
 }
-
-// --- SAVE & ANALYZE LOGIC ---
 document.getElementById('save-btn').onclick = async () => {
     const saveBtn = document.getElementById('save-btn');
     saveBtn.innerText = "Analyzing...";
@@ -118,8 +106,6 @@ document.getElementById('save-btn').onclick = async () => {
     try {
         const textContent = quill.getText();
         const htmlContent = quill.root.innerHTML;
-
-        // With Authorization header
         const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvd3RhcWdrY2JwcHlqeGtuYXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5ODcyMTMsImV4cCI6MjA4ODU2MzIxM30.1dlwW0ZoQEEKjweXpGUcVKyd_Rlap-gC2CcwkZXwEgk';
 
         const response = await fetch('https://dowtaqgkcbppyjxknaqx.supabase.co/functions/v1/analyze-journal', {
@@ -134,8 +120,6 @@ document.getElementById('save-btn').onclick = async () => {
         if (!response.ok) throw new Error('AI Analysis failed');
 
         const analysis = await response.json();
-
-        // --- Save full analysis to Supabase (populates history page) ---
         const { error } = await supabaseClient.from('journal_entries').insert([{
             content:              htmlContent,
             sentiment:            analysis.sentiment,
@@ -144,7 +128,6 @@ document.getElementById('save-btn').onclick = async () => {
             sentence_count:       analysis.sentenceCount,
             mistake_count:        analysis.mistakeCount,
             lexical_feedback:     analysis.vocabularySuggestions,
-            // New fields for vocab + history pages
             unique_words:         analysis.uniqueWords,
             readability:          analysis.readability,
             writing_style:        analysis.writingStyle,
@@ -159,14 +142,9 @@ document.getElementById('save-btn').onclick = async () => {
             lexical_diversity:    analysis.lexicalDiversity,
         }]);
 
-        // Fix #4: single error check
         if (error) throw error;
-
-        // Store in localStorage for sentiment + vocab pages
         localStorage.setItem('latestAnalysis', JSON.stringify(analysis));
         localStorage.setItem('latestJournalText', textContent);
-
-        // Redirect to sentiment analysis page
         window.location.href = 'sentiment.html';
 
     } catch (err) {
