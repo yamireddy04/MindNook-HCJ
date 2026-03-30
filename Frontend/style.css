@@ -45,3 +45,82 @@
   .asset-mini-placeholder { height: 140px; margin-top: 20px; display: flex; align-items: center; justify-content: center; }
   .feature-image { width: 100%; height: 100%; object-fit: contain; }
   .footer-elegant { text-align: center; padding: 60px; border-top: 1px solid var(--glass-border); color: var(--text-dim); }
+
+  @media (max-width: 768px) {
+
+    .nav-minimal {
+      padding: 20px 22px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  
+    .nav-menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+  
+    .nav-menu a {
+      margin-left: 0;
+      font-size: 0.7rem;
+    }
+  
+    .hero-editorial {
+      grid-template-columns: 1fr;
+      padding: 30px 22px;
+      gap: 30px;
+    }
+  
+    .hero-title {
+      font-size: 2.8rem;
+    }
+  
+    .hero-asset-container {
+      width: 100%;
+      height: 220px;
+    }
+  
+    .hero-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  
+    .hero-subtitle {
+      font-size: 0.95rem;
+      max-width: 100%;
+    }
+  
+    .btn-champagne {
+      padding: 14px 30px;
+      font-size: 0.85rem;
+    }
+  
+    .feature-grid-modern {
+      padding: 40px 22px;
+    }
+  
+    .feature-row {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  
+    .feature-card-new {
+      padding: 22px;
+    }
+  
+    .asset-mini-placeholder {
+      height: 120px;
+    }
+  
+    .footer-elegant {
+      padding: 36px 22px;
+      font-size: 0.85rem;
+    }
+  }
+  
+  @media (max-width: 380px) {
+    .hero-title { font-size: 2.2rem; }
+    .nav-logo-text { font-size: 0.9rem; }
+  }

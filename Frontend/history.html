@@ -111,9 +111,20 @@
         .d0{animation-delay:.04s}.d1{animation-delay:.14s}.d2{animation-delay:.24s}.d3{animation-delay:.34s}
 
         @media(max-width:640px){
-            nav{padding:18px 22px;} .ph{padding:36px 22px 0;}
-            .agg-row{margin:20px 22px 0;} .chart-strip{margin:24px 22px 0;}
-            .timeline{padding:24px 22px 48px;}
+        nav{ padding:18px 22px; flex-wrap: wrap; gap: 10px;}
+        .nav-links{ gap: 6px;}
+        .pill{ padding: 6px 12px; font-size: 0.7rem;}
+        .ph{ padding:36px 22px 0;}
+        .ph h1{ font-size: clamp(1.8rem, 6vw, 3.2rem);}
+        .agg-row{ margin:20px 22px 0; gap: 8px;}
+        .agg-cell{ padding: 12px 10px; min-width: 80px;}
+        .agg-n{ font-size: 1.5rem;}
+        .agg-l{ font-size: 0.55rem;}
+        .chart-strip{ margin:24px 22px 0; padding: 20px 16px;}
+        .timeline{ padding:24px 22px 48px;}
+        .entry-row{ padding: 14px 16px;}
+        .entry-date-main{ font-size: 0.85rem;}
+        .entry-date-sub{ font-size: 0.68rem;}
         }
     </style>
 </head>

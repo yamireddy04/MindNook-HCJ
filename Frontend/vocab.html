@@ -138,12 +138,20 @@
         .d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.25s}.d4{animation-delay:.35s}.d5{animation-delay:.45s}
 
         @media(max-width:800px){
-            nav{padding:18px 22px;}
-            .page-header{padding:36px 22px 24px;}
-            .grid{grid-template-columns:1fr;padding:0 22px 40px;}
-            .card.span2,.card.full{grid-column:1;}
-            .action{padding:12px 22px 48px;}
-        }
+       nav{ padding:18px 22px; flex-wrap: wrap; gap: 10px;}
+       .nav-links{ gap: 5px; flex-wrap: wrap;}
+       .pill{ padding: 5px 11px; font-size: 0.7rem;}
+       .page-header{ padding:36px 22px 24px;}
+       .page-header h1{ font-size: clamp(2rem, 7vw, 3.6rem);}
+       .grid{ grid-template-columns:1fr; padding:0 22px 40px;}
+       .card.span2,.card.full{ grid-column:1;}
+       .metric-row{ flex-wrap: wrap;}
+       .metric-box{ min-width: 80px;}
+       .lex-score{ font-size: 2.2rem;}
+       .replace-table th, .replace-table td{ font-size: 0.78rem; padding: 8px 0;}
+       .action{ padding:12px 22px 48px;}
+       .big-btn{ padding: 14px 30px; font-size: 0.85rem;}
+       }
     </style>
 </head>
 <body>
