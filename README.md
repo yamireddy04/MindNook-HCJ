@@ -10,7 +10,7 @@ A full-stack application that transforms personal writing into structured self-i
 
 Built with **HTML / CSS / JavaScript** for the frontend and **Deno Edge Functions on Supabase** for the backend.
 
-**Live Demo:** https://mindnook-hcj.vercel.app
+🌐 **Live Demo:** https://mindnook-hcj.vercel.app
 
 > 📄 **Research Foundation:** This application is the prototype system described in the TechRxiv preprint (powered by IEEE).
 > Gabu Sai Yamini Devi. *"A System-Level Framework for Sentiment-Aware Reflective Writing Systems."* TechRxiv (IEEE Preprint), February 2026. [DOI: 10.36227/techrxiv.177274130.07417144/v1](https://doi.org/10.36227/techrxiv.177274130.07417144/v1)
