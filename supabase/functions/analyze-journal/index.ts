@@ -18,7 +18,6 @@ serve(async (req) => {
       headers: { "Authorization": `Bearer ${GROQ_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "llama-3.3-70b-versatile",
-        // Fix #5: Prompt now specifies exact JSON schema the frontend expects
         messages: [{ role: "user", content: `Analyze this journal entry: "${text}". Return ONLY valid JSON with exactly these keys:
 {
   "sentiment": "Positive or Negative or Neutral",
